@@ -1,27 +1,35 @@
-" VimPlug Pluins
+" ---------------------------- "
+"  NeoVim Config File 
+"  Author: AarKiMos (Aachman Mittal)
+"  Email: m.aachman@gmail.com
+" ---------------------------- "
 
+
+" Using VimPlug for External Pluins "
 call plug#begin('~/.data/plugged')
-Plug 'preservim/nerdtree'
-Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/syntastic'
-Plug 'vim-scripts/c.vim'
-Plug 'bling/vim-bufferline'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'rakr/vim-one'
-Plug 'jaredgorski/SpaceCamp'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'codota/tabnine-vim'
-Plug 'moll/vim-bbye'
-"Plug 'crosbymichael/vim-cfmt'
-Plug 'plasticboy/vim-markdown'
-Plug 'rust-lang/rust.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'preservim/nerdtree'               " File Explorer
+Plug 'airblade/vim-gitgutter'           " For git diff in number line
+Plug 'scrooloose/syntastic'             " For Syntax Checking
+" Plug 'vim-scripts/c.vim'              " 
+Plug 'bling/vim-bufferline'             " For listing buffers in status line
+Plug 'vim-airline/vim-airline'          " For better status line
+Plug 'vim-airline/vim-airline-themes'   " Themes for vim airline
+Plug 'rakr/vim-one'                     " Theme             
+Plug 'jaredgorski/SpaceCamp'            " Theme
+Plug 'Xuyuanp/nerdtree-git-plugin'      " For git status in nerdtree explorer
+Plug 'moll/vim-bbye'                    " For better buffer delete and wipeout management
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} " For Multiple Cursors
+" Plug 'crosbymichael/vim-cfmt'
+Plug 'plasticboy/vim-markdown'          " Markdown folding
+Plug 'rust-lang/rust.vim'               " Rust Language support
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellesense and autocompletion
 
 call plug#end()
-" Appearance --------------
-set background = "dark"
+
+" ======================= Appearance ========================
 colorscheme spacecamp
+set background=dark
 let g:airline_theme = 'one'
 let g:airline#extensions#tabline#enabled = 1
 let g:bufferline_echo = 0
@@ -37,7 +45,7 @@ set number
 set showcmd                     " Show me what I'm typing
 
 set noswapfile                  " Don't use swapfile
-set nobackup					" Don't create annoying backup files
+set nobackup			" Don't create annoying backup files
 set nowritebackup
 set splitright                  " Split vertical windows right to the current windows
 set splitbelow                  " Split horizontal windows below to the current windows
@@ -58,7 +66,7 @@ set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not when search pattern contains upper case characters
 set ttyfast
 " set ttyscroll=3               " noop on linux ?
-set lazyredraw          	      " Wait to redraw "
+set lazyredraw                  " Wait to redraw "
 
 " speed up syntax highlighting
 set nocursorcolumn
@@ -150,13 +158,29 @@ if !exists(":DiffOrig")
         \ | wincmd p | diffthis
 endif
 
+
+
+
+" =================== Syntastic ==================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+
+
+
+
 " =================== coc.nvim ===================
 let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-discord-rpc', 'coc-json', 'coc-markdownlint', 'coc-python', 'coc-sh', 'coc-git' ]
 source $HOME/.config/nvim/coc/coc.vim
-" =================== Vim-cfmt ===================
-"let g:cfmt_style = '-linux'
-"autocmd BufWritePre *.c,*.h Cfmt
-"
+
+
+
 
 
 "==================== NerdTree ====================
@@ -171,6 +195,10 @@ let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
 
 " Close nerdtree and vim on close file
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+
+
+
 
 
 " ==================== vim-multiple-cursors ====================
@@ -195,6 +223,11 @@ function! Multiple_cursors_after()
 endfunction
 
 
+
+
+
+
+
 " ========= vim-markdown ==================
 
 " disable folding
@@ -216,6 +249,10 @@ let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_json_frontmatter = 1
+
+
+
+
 
 
 " =================== rust.vim ========================
