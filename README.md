@@ -1,4 +1,6 @@
 
 # Dotfiles
 
-### My personal dotfiles
+## My personal dotfiles
+
+WIP: more config files to come

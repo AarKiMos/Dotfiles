@@ -8,22 +8,31 @@
 " Using VimPlug for External Pluins "
 call plug#begin('~/.data/plugged')
 
-Plug 'preservim/nerdtree'               " File Explorer
-Plug 'airblade/vim-gitgutter'           " For git diff in number line
-Plug 'scrooloose/syntastic'             " For Syntax Checking
-" Plug 'vim-scripts/c.vim'              " 
-Plug 'bling/vim-bufferline'             " For listing buffers in status line
-Plug 'vim-airline/vim-airline'          " For better status line
-Plug 'vim-airline/vim-airline-themes'   " Themes for vim airline
-Plug 'rakr/vim-one'                     " Theme             
-Plug 'jaredgorski/SpaceCamp'            " Theme
-Plug 'Xuyuanp/nerdtree-git-plugin'      " For git status in nerdtree explorer
-Plug 'moll/vim-bbye'                    " For better buffer delete and wipeout management
-Plug 'mg979/vim-visual-multi', {'branch': 'master'} " For Multiple Cursors
-" Plug 'crosbymichael/vim-cfmt'
-Plug 'plasticboy/vim-markdown'          " Markdown folding
-Plug 'rust-lang/rust.vim'               " Rust Language support
+" NerdTree
+Plug 'scrooloose/nerdtree'                      " File Explorer
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'  " For better colorscheme in nerdtree
+Plug 'ryanoasis/vim-devicons'                   " For file icons in nerdtree
+Plug 'Xuyuanp/nerdtree-git-plugin'              " For git status in nerdtree explorer
+
+" Syntax and AutoComplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellesense and autocompletion
+" Plug 'scrooloose/syntastic'                     " For Syntax Checking
+Plug 'plasticboy/vim-markdown'                  " Markdown folding
+Plug 'rust-lang/rust.vim'                       " Rust Language support
+
+" Utilities
+Plug 'airblade/vim-gitgutter'                   " For git diff in number line
+Plug 'bling/vim-bufferline'                     " For listing buffers in status line
+Plug 'moll/vim-bbye'                            " For better buffer delete and wipeout management
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} " For Multiple Cursors
+Plug 'zhou13/vim-easyescape'                    " Escape insert mode with jk or kj but with a timeout
+Plug 'scrooloose/nerdcommenter'                 " comment uncomment any line with keybind
+
+" Appearance
+Plug 'vim-airline/vim-airline'                  " For better status line
+Plug 'rakr/vim-one'                             " Theme             
+Plug 'jaredgorski/SpaceCamp'                    " Theme
+Plug 'vim-airline/vim-airline-themes'           " Themes for vim airline
 
 call plug#end()
 
@@ -35,20 +44,18 @@ let g:airline#extensions#tabline#enabled = 1
 let g:bufferline_echo = 0
 set termguicolors
 
-" Buffer cycling < only in nvim >
-:nnoremap <Tab> :bnext<CR>
-:nnoremap <S-Tab> :bprevious<CR>
 
 
 set updatetime=100
 set number
 set showcmd                     " Show me what I'm typing
-
 set noswapfile                  " Don't use swapfile
 set nobackup			" Don't create annoying backup files
 set nowritebackup
+
 set splitright                  " Split vertical windows right to the current windows
 set splitbelow                  " Split horizontal windows below to the current windows
+
 set encoding=utf-8              " Set default encoding to UTF-8
 set autowrite                   " Automatically save before :next, :make etc.
 set autoread                    " Automatically reread changed files without asking me anything
@@ -65,7 +72,6 @@ set hlsearch                    " Highlight found searches
 set ignorecase                  " Search case insensitive...
 set smartcase                   " ... but not when search pattern contains upper case characters
 set ttyfast
-" set ttyscroll=3               " noop on linux ?
 set lazyredraw                  " Wait to redraw "
 
 " speed up syntax highlighting
@@ -135,10 +141,6 @@ if !&sidescrolloff
 endif
 set display+=lastline
 
-" CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
-
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
@@ -150,33 +152,37 @@ if !v:shell_error && s:uname == "Linux" && !has('nvim')
   set ttymouse=xterm
 endif
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-        \ | wincmd p | diffthis
-endif
+
+
+" =============== Key Mappings =========================
+" CTRL-U in insert mode deletes a lot.	Use CTRL-G u to first break undo, so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+" Buffer cycling < only in nvim >
+:nnoremap <Tab> :bnext<CR>
+:nnoremap <S-Tab> :bprevious<CR>
+
+" escape insert mode 
+" inoremap jk <ESC> 
 
 
 
 
 " =================== Syntastic ==================
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-
-
-
-
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+"
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_cpp_config_file = '$HOME/.config/nvim/coc/cpp_include_paths'
+"
 
 " =================== coc.nvim ===================
-let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-discord-rpc', 'coc-json', 'coc-markdownlint', 'coc-python', 'coc-sh', 'coc-git' ]
+let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-discord-rpc', 'coc-json', 'coc-markdownlint', 'coc-python', 'coc-sh', 'coc-git',
+                                \ 'coc-snippets', 'coc-pairs', 'coc-prettier']
 source $HOME/.config/nvim/coc/coc.vim
 
 
@@ -185,11 +191,12 @@ source $HOME/.config/nvim/coc/coc.vim
 
 "==================== NerdTree ====================
 " For toggling
-nmap <C-n> :NERDTreeToggle<CR>
+" nmap <C-n> :NERDTreeToggle<CR>
 noremap <Leader>n :NERDTreeToggle<cr>
 noremap <Leader>f :NERDTreeFind<cr>
 
 let NERDTreeShowHidden=1
+let g:NERDTreeGitStatusWithFlags = 1
 
 let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
 
@@ -199,6 +206,37 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 
 
+" ==================== NERDCommenter ===========================
+"nnoremap <C-/> <Plug>NERDCommenterToggle
+vmap <C-_> <plug>NERDCommenterToggle
+nmap <C-_> <plug>NERDCommenterToggle
+
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
 
 
 " ==================== vim-multiple-cursors ====================
@@ -254,6 +292,13 @@ let g:vim_markdown_json_frontmatter = 1
 
 
 
+" =================== easyescape ======================
+
+let g:easyescape_chars = { "j": 1, "k": 1 }
+let g:easyescape_timeout = 100
+cnoremap jk <ESC>
+cnoremap kj <ESC>
+
 
 " =================== rust.vim ========================
 
@@ -265,5 +310,5 @@ let g:rustfmt_autosave = 1
 " clipboard.
 let g:rust_clip_command = 'xclip -selection clipboard'
 
-
+" TODO: explore fzf and fzf.vim
 
