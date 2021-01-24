@@ -19,6 +19,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellesense and autocompletio
 " Plug 'scrooloose/syntastic'                     " For Syntax Checking
 Plug 'plasticboy/vim-markdown'                  " Markdown folding
 Plug 'rust-lang/rust.vim'                       " Rust Language support
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " Utilities
 Plug 'airblade/vim-gitgutter'                   " For git diff in number line
@@ -32,14 +33,16 @@ Plug 'scrooloose/nerdcommenter'                 " comment uncomment any line wit
 Plug 'vim-airline/vim-airline'                  " For better status line
 Plug 'rakr/vim-one'                             " Theme             
 Plug 'jaredgorski/SpaceCamp'                    " Theme
+Plug 'ParamagicDev/vim-medic_chalk'             " Theme
+Plug 'atahabaki/archman-vim'                    " Theme
 Plug 'vim-airline/vim-airline-themes'           " Themes for vim airline
 
 call plug#end()
 
 " ======================= Appearance ========================
-colorscheme spacecamp
+colorscheme medic_chalk
 set background=dark
-let g:airline_theme = 'one'
+let g:airline_theme = 'minimalist'
 let g:airline#extensions#tabline#enabled = 1
 let g:bufferline_echo = 0
 set termguicolors
@@ -167,7 +170,6 @@ inoremap <C-U> <C-G>u<C-U>
 
 
 
-
 " =================== Syntastic ==================
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
@@ -181,11 +183,9 @@ inoremap <C-U> <C-G>u<C-U>
 "
 
 " =================== coc.nvim ===================
-let g:coc_global_extensions = ['coc-clangd', 'coc-cmake', 'coc-discord-rpc', 'coc-json', 'coc-markdownlint', 'coc-python', 'coc-sh', 'coc-git',
+let g:coc_global_extensions = ['coc-cmake', 'coc-discord-rpc', 'coc-json', 'coc-markdownlint', 'coc-python', 'coc-sh', 'coc-git',
                                 \ 'coc-snippets', 'coc-pairs', 'coc-prettier']
 source $HOME/.config/nvim/coc/coc.vim
-
-
 
 
 
@@ -312,3 +312,8 @@ let g:rust_clip_command = 'xclip -selection clipboard'
 
 " TODO: explore fzf and fzf.vim
 
+
+" c++ syntax highlighting
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_dspacecamecl_highlight = 1
